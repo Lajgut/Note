@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Note</string>
+
+
+    <string name="btnSend">send</string>
+    <string name="btnSave">save</string>
+    <string name="et">Enter your text</string>
+    <string name="btnVoice">Voice</string>
+    <string name="ifNoRec">Voice recognizer not present</string>
+    <string name="title_activity_text_editor">TextEditor</string>
+
+
+    <string name="dlgOnDelete">Are you sure want to delete this note?</string>
+    <string name="dlgOnDeleteApprove">Delete</string>
+    <string name="dlgOnDeleteDeny">Cancel</string>
+
+
+    <string name="action_save">save</string>
+    <string name="action_close">close</string>
+    <string name="action_send">send</string>
+    <string name="action_voice">voice</string>
+    <string name="action_search">search</string>
+
+    <string name="audio_error">audio error</string>
+    <string name="client_error">client error</string>
+    <string name="network_error">network error</string>
+    <string name="nomatch_error">no match error</string>
+    <string name="server_error">server error</string>
+    <string name="context_delete">delete</string>
+    <string name="context_selectseveral">select several</string>
+    <string name="header_hint">header</string>
+    <string name="text_hint">your_text</string>
+    <string name="alert1">Delete this note?</string>
+    <string name="alert2">deleted note can`t be restored</string>
+    <string name="alert3">delete</string>
+    <string name="alert4">Cancel</string>
+
+
+</resources>
