@@ -50,37 +50,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
                     v.getContext().startActivity(intent);
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(final View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
-                    builder.setTitle(R.string.alert1)
-                            .setMessage(R.string.alert2)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.alert3,
-                                    new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    String mId = String.valueOf(number.getText());
-                                    SQLiteDatabase database;
-                                    NoteDB savedNotes = new NoteDB(v.getContext());
-                                    database = savedNotes.getWritableDatabase();
-
-                                    database.delete(NoteDB.TABLE_NOTES, NoteDB.KEY_ID + "=" + mId, null);
-
-                                    savedNotes.close();
-                                }
-                            })
-                            .setNegativeButton(R.string.alert4,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    return false;
-                }
-            });
         }
     }
 
@@ -103,11 +72,49 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(final PersonViewHolder personViewHolder, final int i) {
         personViewHolder.number.setText(notes.get(i).number);
         personViewHolder.header.setText(notes.get(i).header);
         personViewHolder.text.setText(notes.get(i).text);
         personViewHolder.data.setText(notes.get(i).data);
+
+
+        personViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v)
+            { Intent intent = new Intent(v.getContext(), TextEditor.class);
+                intent.putExtra(EXTRA_NUMBER, personViewHolder.number.getText());
+                intent.putExtra(EXTRA_TEXT, personViewHolder.text.getText());
+                intent.putExtra(EXTRA_HEADER, personViewHolder.header.getText());
+                v.getContext().startActivity(intent);
+            }
+        });
+        personViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(final View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(personViewHolder.itemView.getContext());
+                builder.setTitle(R.string.alert1)
+                        .setMessage(R.string.alert2)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.alert3, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String mId = String.valueOf(personViewHolder.number.getText());
+                                SQLiteDatabase database;
+                                NoteDB savedNotes = new NoteDB(v.getContext());
+                                database = savedNotes.getWritableDatabase(); database.delete(NoteDB.TABLE_NOTES, NoteDB.KEY_ID + "=" + mId, null);
+                                savedNotes.close();
+                                remove(i);
+
+                            }
+                        })
+                        .setNegativeButton(R.string.alert4, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create(); alert.show(); return true; } });
+    }
+    public void remove(int i) {
+        notes.remove(notes.get(i));
+        notifyDataSetChanged();
     }
 
     @Override
