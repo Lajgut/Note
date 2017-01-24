@@ -115,17 +115,19 @@ public class TextEditor extends AppCompatActivity {
 
 
             case R.id.action_send:
-                if(et.length() > 0 && etHeader.length() > 0) {
-                    text = et.getText().toString();
-                    header = etHeader.getText().toString();
 
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
+                text = et.getText().toString();
+                header = etHeader.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+
+                if (etHeader.length() > 0)
                     intent.putExtra(Intent.EXTRA_SUBJECT, header);
+                if (et.length() > 0)
                     intent.putExtra(Intent.EXTRA_TEXT, text);
-                    startActivity(intent);
-                    break;
-                }
+                startActivity(intent);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
