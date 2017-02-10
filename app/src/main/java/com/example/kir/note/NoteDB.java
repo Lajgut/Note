@@ -5,13 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 import android.view.View;
 
 import com.example.kir.note.recycler_builder.NotePreview;
 
 import java.util.List;
 
-public class NoteDB extends SQLiteOpenHelper {
+//добавить проверку версии бд
+
+public class NoteDB extends SQLiteOpenHelper implements BaseColumns{
 
     public static final int DB_VERSION = 2;
     public static final String DB_NAME = "notesDB";
@@ -30,15 +33,13 @@ public class NoteDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NOTES + "(" + KEY_ID
-                + " integer primary key," + KEY_HEADER + " text," + KEY_TEXT + " text," + KEY_DATA + " text" + ")");
+                + " integer primary key autoincrement," + KEY_HEADER + " text," + KEY_TEXT + " text," + KEY_DATA + " text" + ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + TABLE_NOTES);
-
         onCreate(db);
-
     }
 
     public static void readFromDB(View v, List<NotePreview> list) {

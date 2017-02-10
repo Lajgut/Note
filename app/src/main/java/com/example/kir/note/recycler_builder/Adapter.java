@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
     public static final String EXTRA_NUMBER = "number_key";
 
 
-    public static class PersonViewHolder extends RecyclerView.ViewHolder {
+    public static class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         CardView cv;
         TextView header;
@@ -35,6 +36,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
 
         PersonViewHolder(final View itemView) {
             super(itemView);
+            itemView.setOnCreateContextMenuListener(this);
+
             cv = (CardView) itemView.findViewById(R.id.cv);
             number = (TextView) itemView.findViewById(R.id.note_number);
             header = (TextView) itemView.findViewById(R.id.note_header);
@@ -50,6 +53,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
                     v.getContext().startActivity(intent);
                 }
             });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Select The Action");
+            menu.add(0, v.getId(), 0, "Call");
+            menu.add(0, v.getId(), 0, "SMS");
+
         }
     }
 
@@ -88,7 +99,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
                 v.getContext().startActivity(intent);
             }
         });
-        personViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        /*personViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override public boolean onLongClick(final View v) {
             AlertDialog.Builder builder = new AlertDialog.Builder(personViewHolder.itemView.getContext());
                 builder.setTitle(R.string.alert1)
@@ -110,7 +121,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.PersonViewHolder> {
                                 dialog.cancel();
                             }
                         });
-                AlertDialog alert = builder.create(); alert.show(); return true; } });
+                AlertDialog alert = builder.create(); alert.show(); return true;
+            }
+        });*/
     }
     public void remove(int i) {
         notes.remove(notes.get(i));
